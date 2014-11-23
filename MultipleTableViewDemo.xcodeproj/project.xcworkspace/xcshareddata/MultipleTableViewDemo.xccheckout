@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>212729AB-1ADF-4E39-AEF4-14ED855750CF</string>
+	<key>IDESourceControlProjectName</key>
+	<string>MultipleTableViewDemo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>C85447E03F6CDDB561AE315AAAD4557AC4C4696D</key>
+		<string>github.com:yinwenjie/MultipleTableView.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>MultipleTableViewDemo.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>C85447E03F6CDDB561AE315AAAD4557AC4C4696D</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:yinwenjie/MultipleTableView.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>C85447E03F6CDDB561AE315AAAD4557AC4C4696D</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C85447E03F6CDDB561AE315AAAD4557AC4C4696D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>MultipleTableView</string>
+		</dict>
+	</array>
+</dict>
+</plist>

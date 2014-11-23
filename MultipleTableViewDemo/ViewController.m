@@ -35,9 +35,14 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (int) numberOfPagesDisplayedAtStart
+- (NSInteger) numberOfPagesDisplayedAtStart
 {
-    return 3;
+    return 2;
+}
+
+- (NSInteger) numberOfPagesDisplayedOnceAtMost
+{
+    return 2;
 }
 
 @end

@@ -11,7 +11,7 @@
 @protocol MultipleTableViewDelegate;
 @protocol MultipleTableViewDataSource;
 
-@interface MultipleTableView : UIView
+@interface MultipleTableView : UIView<UITableViewDelegate,UITableViewDataSource>
 
 //MultipleTableView的数据源和代理
 @property (nonatomic, assign) id<MultipleTableViewDelegate> delegate;
@@ -24,7 +24,8 @@
 @protocol MultipleTableViewDelegate <NSObject>
 
 @optional
-- (int) numberOfPagesDisplayedAtStart;
+- (NSInteger) numberOfPagesDisplayedAtStart;
+- (NSInteger) numberOfPagesDisplayedOnceAtMost;
 @end
 
 @protocol MultipleTableViewDataSource<NSObject>
