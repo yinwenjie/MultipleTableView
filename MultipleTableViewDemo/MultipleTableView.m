@@ -119,6 +119,17 @@
     return sheetView;
 }
 
+//重新排列当前显示的各个TableView
+- (void)resizeTableViews
+{
+    for (DataSheetView *sheetView in self.currentSheetsSet)
+    {
+        NSInteger nIdx = sheetView.currentSheetLevel;
+        CGRect dataSheetFrame = CGRectMake(220 * nIdx / _currentSheetsSet.count, 0, 320, 568);
+        sheetView.frame = dataSheetFrame;
+    }
+}
+
 #pragma mark - UITableView Delegate & DataSource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -133,8 +144,6 @@
             newSheetView = [[DataSheetView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         }
         
-        CGRect dataSheetFrame = CGRectMake(130 * (currentTableView.currentSheetLevel + 1), 0, 320, 568);
-        newSheetView.frame = dataSheetFrame;
         newSheetView.tag = currentTableView.tag + 1;
         newSheetView.currentSheetLevel = currentTableView.currentSheetLevel + 1;
         newSheetView.delegate = self;
@@ -144,6 +153,8 @@
         [newSheetView release];
         [_currentSheetsSet addObject:newSheetView];
     }
+    
+    [self resizeTableViews];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -159,6 +170,22 @@
     if (cell == nil)
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        if (tableView.tag == 0)
+        {
+            cell.backgroundColor = [UIColor yellowColor];
+        }
+        else if (tableView.tag == 1)
+        {
+            cell.backgroundColor = [UIColor greenColor];
+        }
+        else if (tableView.tag == 2)
+        {
+            cell.backgroundColor = [UIColor purpleColor];
+        }
+        if (tableView.tag == 3)
+        {
+            cell.backgroundColor = [UIColor blueColor];
+        }
     }
     return cell;
 }
