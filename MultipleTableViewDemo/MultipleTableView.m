@@ -15,7 +15,7 @@
 @property (nonatomic, assign) NSInteger maxPagesToShowAtOnce;
 
 @property (nonatomic, assign) NSInteger targetLevel;                        //目标的level。
-@property (nonatomic, retain) NSMutableSet *currentSheetsSet;           //当前显示的dataSheets实例的集合
+@property (nonatomic, retain) NSMutableArray *currentSheetsSet;           //当前显示的dataSheets实例的集合
 @property (nonatomic, retain) NSMutableSet *backupSheetsSet;             //后备的dataSheets实例的集合
 
 @end
@@ -71,7 +71,7 @@
 - (void)initializer
 {
     _targetLevel = 1;
-    _currentSheetsSet = [[NSMutableSet alloc] init];
+    _currentSheetsSet = [[NSMutableArray alloc] init];
     _backupSheetsSet = [[NSMutableSet alloc] init];
 }
 
@@ -119,12 +119,24 @@
     return sheetView;
 }
 
+//回收某个dataSheets到后备集合
+- (void)collectDataSheet:(DataSheetView *)dataSheet
+{
+    dataSheet.delegate = nil;
+    dataSheet.dataSource = nil;
+    dataSheet.tag = NSNotFound;
+    dataSheet.frame = CGRectZero;
+    dataSheet.currentSheetLevel = NSNotFound;
+    [_currentSheetsSet removeObject:dataSheet];
+    [_backupSheetsSet addObject:dataSheet];
+}
+
 //重新排列当前显示的各个TableView
 - (void)resizeTableViews
 {
-    for (DataSheetView *sheetView in self.currentSheetsSet)
+    for (DataSheetView *sheetView in _currentSheetsSet)
     {
-        NSInteger nIdx = sheetView.currentSheetLevel;
+        NSInteger nIdx = sheetView.tag;
         CGRect dataSheetFrame = CGRectMake(220 * nIdx / _currentSheetsSet.count, 0, 320, 568);
         sheetView.frame = dataSheetFrame;
     }
@@ -134,16 +146,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DataSheetView *currentTableView = (DataSheetView *)tableView;
-    NSLog(@"Table Level: %ld", currentTableView.currentSheetLevel);
-    if (currentTableView.currentSheetLevel == _currentSheetsSet.count - 1)
+    if (currentTableView.tag == _currentSheetsSet.count - 1)
     {
         //建立一个新的表并添加到屏幕上
-        DataSheetView *newSheetView = [self dequeDataSheet];
-        if (newSheetView == nil)
-        {
-            newSheetView = [[DataSheetView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-        }
-        
+       
+        DataSheetView *newSheetView = [[DataSheetView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         newSheetView.tag = currentTableView.tag + 1;
         newSheetView.currentSheetLevel = currentTableView.currentSheetLevel + 1;
         newSheetView.delegate = self;
@@ -152,41 +159,40 @@
         [self addSubview:newSheetView];
         [newSheetView release];
         [_currentSheetsSet addObject:newSheetView];
+        
+        if (_currentSheetsSet.count > _maxPagesToShowAtOnce)
+        {
+            DataSheetView *sheetToCollect = [_currentSheetsSet objectAtIndex:0];
+            [sheetToCollect removeFromSuperview];
+            [_currentSheetsSet removeObject:sheetToCollect];
+            for (DataSheetView *sheetView in _currentSheetsSet)
+            {
+                sheetView.tag--;
+            }
+        }
     }
-    
+
+
     [self resizeTableViews];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return 15;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    DataSheetView *currentTableView = (DataSheetView *)tableView;
     static NSString *identifier = @"TableViewIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
     if (cell == nil)
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        if (tableView.tag == 0)
-        {
-            cell.backgroundColor = [UIColor yellowColor];
-        }
-        else if (tableView.tag == 1)
-        {
-            cell.backgroundColor = [UIColor greenColor];
-        }
-        else if (tableView.tag == 2)
-        {
-            cell.backgroundColor = [UIColor purpleColor];
-        }
-        if (tableView.tag == 3)
-        {
-            cell.backgroundColor = [UIColor blueColor];
-        }
     }
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"第%ld张表格",currentTableView.currentSheetLevel + 1];
     return cell;
 }
 @end
