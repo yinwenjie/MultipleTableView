@@ -145,14 +145,13 @@
 #pragma mark - UITableView Delegate & DataSource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DataSheetView *currentTableView = (DataSheetView *)tableView;
-    if (currentTableView.tag == _currentSheetsSet.count - 1)
+    DataSheetView *currentSheetView = (DataSheetView *)tableView;
+    if (currentSheetView.tag == _currentSheetsSet.count - 1)
     {
-        //建立一个新的表并添加到屏幕上
-       
+        //选择了最高级列表中的元素,建立一个新的表并添加到屏幕上
         DataSheetView *newSheetView = [[DataSheetView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-        newSheetView.tag = currentTableView.tag + 1;
-        newSheetView.currentSheetLevel = currentTableView.currentSheetLevel + 1;
+        newSheetView.tag = currentSheetView.tag + 1;
+        newSheetView.currentSheetLevel = currentSheetView.currentSheetLevel + 1;
         newSheetView.delegate = self;
         newSheetView.dataSource = self;
         newSheetView.backgroundColor = [UIColor redColor];
@@ -162,13 +161,53 @@
         
         if (_currentSheetsSet.count > _maxPagesToShowAtOnce)
         {
-            DataSheetView *sheetToCollect = [_currentSheetsSet objectAtIndex:0];
+            DataSheetView *sheetToCollect = [_currentSheetsSet firstObject];
             [sheetToCollect removeFromSuperview];
             [_currentSheetsSet removeObject:sheetToCollect];
             for (DataSheetView *sheetView in _currentSheetsSet)
             {
                 sheetView.tag--;
             }
+        }
+    }
+    else
+    {
+        //选择了低级别列表中的元素，列表向右方移动并重现更低级的列表
+        NSInteger nCurrentLvl = currentSheetView.currentSheetLevel;
+        DataSheetView *lastSheetView = [_currentSheetsSet lastObject];
+        NSInteger nHighestLvl = lastSheetView.currentSheetLevel;
+        NSInteger numSheetsToRemove = nHighestLvl - nCurrentLvl;
+        for (NSInteger nIdx = 0; nIdx < numSheetsToRemove; nIdx++)
+        {
+            DataSheetView *sheetToCollect = [_currentSheetsSet lastObject];
+            [sheetToCollect removeFromSuperview];
+            [_currentSheetsSet removeObject:sheetToCollect];
+        }
+        
+        //在左侧新添加列表
+        DataSheetView *newSheetView = [[DataSheetView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        DataSheetView *firstSheetView = [_currentSheetsSet firstObject];
+        if (firstSheetView.currentSheetLevel != 0)
+        {
+            newSheetView.delegate = self;
+            newSheetView.dataSource = self;
+            newSheetView.currentSheetLevel = firstSheetView.currentSheetLevel - 1;
+            [self addSubview:newSheetView];
+            [newSheetView release];
+            [_currentSheetsSet insertObject:newSheetView atIndex:0];
+        }
+        else
+        {
+            [newSheetView release];
+        }
+        
+        
+        //更新各个列表的tag，排列顺序
+        for (NSInteger nIdx = 0; nIdx < _currentSheetsSet.count; nIdx++)
+        {
+            DataSheetView *sheetView = [_currentSheetsSet objectAtIndex:nIdx];
+            sheetView.tag = nIdx;
+            [self bringSubviewToFront:sheetView];
         }
     }
 
