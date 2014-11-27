@@ -27,7 +27,7 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        self.backgroundColor = [UIColor yellowColor];
+//        self.backgroundColor = [UIColor yellowColor];
         
         self.delegate = delegate;
         self.dataSource = dataSource;
@@ -134,11 +134,14 @@
 //重新排列当前显示的各个TableView
 - (void)resizeTableViews
 {
+    NSTimeInterval timeIntvl = 0.3;
     for (DataSheetView *sheetView in _currentSheetsSet)
     {
-        NSInteger nIdx = sheetView.tag;
-        CGRect dataSheetFrame = CGRectMake(220 * nIdx / _currentSheetsSet.count, 0, 320, 568);
-        sheetView.frame = dataSheetFrame;
+        [UIView animateWithDuration:timeIntvl animations:^{
+            NSInteger nIdx = sheetView.tag;
+            CGRect dataSheetFrame = CGRectMake(220 * nIdx / _currentSheetsSet.count, 0, 320, 568);
+            sheetView.frame = dataSheetFrame;
+        }];
     }
 }
 
@@ -150,19 +153,21 @@
     {
         //选择了最高级列表中的元素,建立一个新的表并添加到屏幕上
         DataSheetView *newSheetView = [[DataSheetView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        DataSheetView *sheetToCollect = nil;
         newSheetView.tag = currentSheetView.tag + 1;
         newSheetView.currentSheetLevel = currentSheetView.currentSheetLevel + 1;
         newSheetView.delegate = self;
         newSheetView.dataSource = self;
-        newSheetView.backgroundColor = [UIColor redColor];
+        newSheetView.frame = CGRectMake(320, 0, 320, 568);//初始frame在屏幕范围的外面，方便动画滑入
         [self addSubview:newSheetView];
         [newSheetView release];
         [_currentSheetsSet addObject:newSheetView];
         
         if (_currentSheetsSet.count > _maxPagesToShowAtOnce)
         {
-            DataSheetView *sheetToCollect = [_currentSheetsSet firstObject];
+            sheetToCollect = [_currentSheetsSet firstObject];
             [sheetToCollect removeFromSuperview];
+            sheetToCollect.bShouldRemove = YES;
             [_currentSheetsSet removeObject:sheetToCollect];
             for (DataSheetView *sheetView in _currentSheetsSet)
             {
@@ -182,6 +187,7 @@
             DataSheetView *sheetToCollect = [_currentSheetsSet lastObject];
             [sheetToCollect removeFromSuperview];
             [_currentSheetsSet removeObject:sheetToCollect];
+            sheetToCollect.bShouldRemove = YES;
         }
         
         //在左侧新添加列表
@@ -191,6 +197,7 @@
         {
             newSheetView.delegate = self;
             newSheetView.dataSource = self;
+            newSheetView.frame = CGRectMake(-320, 0, 320, 568);//初始frame在屏幕范围的外面，方便动画滑入
             newSheetView.currentSheetLevel = firstSheetView.currentSheetLevel - 1;
             [self addSubview:newSheetView];
             [newSheetView release];
@@ -206,12 +213,13 @@
         for (NSInteger nIdx = 0; nIdx < _currentSheetsSet.count; nIdx++)
         {
             DataSheetView *sheetView = [_currentSheetsSet objectAtIndex:nIdx];
-            sheetView.tag = nIdx;
-            [self bringSubviewToFront:sheetView];
+            if (sheetView.bShouldRemove == NO)
+            {
+                sheetView.tag = nIdx;
+                [self bringSubviewToFront:sheetView];
+            }
         }
     }
-
-
     [self resizeTableViews];
 }
 
