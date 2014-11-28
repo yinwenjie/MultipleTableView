@@ -22,7 +22,7 @@
     // Do any additional setup after loading the view, typically from a nib.
 //    MultipleTableView *MTV = [[MultipleTableView alloc] initWithFrame:CGRectMake(0, 0, 320, 568)];
     CGRect frame = CGRectMake(0, 0, 320, 568);
-    MultipleTableView *MTV = [[MultipleTableView alloc] initWithFrame:frame withDelegate:self AndDataSource:self];
+    MultipleTableView *MTV = [[MultipleTableView alloc] initWithFrame:frame];
     MTV.delegate = self;
     MTV.dataSource = self;
     [self.view addSubview:MTV];

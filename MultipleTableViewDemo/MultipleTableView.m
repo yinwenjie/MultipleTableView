@@ -17,31 +17,54 @@
 @property (nonatomic, assign) NSInteger targetLevel;                        //目标的level。
 @property (nonatomic, retain) NSMutableArray *currentSheetsSet;           //当前显示的dataSheets实例的集合
 @property (nonatomic, retain) NSMutableSet *backupSheetsSet;             //后备的dataSheets实例的集合
+@property (nonatomic, retain) NSMutableArray *removedDataSheets;
 
 @end
 
 @implementation MultipleTableView
 
-- (id)initWithFrame:(CGRect)frame withDelegate:(id<MultipleTableViewDelegate>)delegate AndDataSource:(id<MultipleTableViewDataSource>)dataSource
+
+//类成员的初始化
+- (void)initializer
 {
-    self = [super initWithFrame:frame];
-    if (self)
-    {
-//        self.backgroundColor = [UIColor yellowColor];
-        
-        self.delegate = delegate;
-        self.dataSource = dataSource;
-        
-        //Initializer
-        [self collectDelegateData];
-        [self initializer];
-        [self loadDataSheets];
-    }
-    return self;
+    _targetLevel = 1;
+    _currentSheetsSet = [[NSMutableArray alloc] init];
+    _removedDataSheets = [[NSMutableArray alloc] init];
+    _backupSheetsSet = [[NSMutableSet alloc] init];
 }
 
-- (void)collectDelegateData
+//向背景视图上添加datasheets
+- (void)loadDataSheets
 {
+    for (int nIdx = 0; nIdx < self.startPagesToShow; nIdx++)
+    {
+        CGRect dataSheetFrame = CGRectMake(130 * nIdx, 0, 320, 568);
+        DataSheetView *sheetView = [[DataSheetView alloc] initWithFrame:dataSheetFrame style:UITableViewStylePlain];
+        sheetView.tag = nIdx;
+        sheetView.delegate = self;
+        sheetView.dataSource = self;
+        sheetView.currentSheetLevel = nIdx;
+        [self addSubview:sheetView];
+        [sheetView release];
+        [_currentSheetsSet addObject:sheetView];
+    }
+}
+
+//从后备的dataSheets实例的集合中检索元素
+/*- (DataSheetView *)dequeDataSheet
+{
+    DataSheetView *sheetView = [_backupSheetsSet anyObject];
+    if (sheetView)
+    {
+        [_backupSheetsSet removeObject:sheetView];
+    }
+    return sheetView;
+}*/
+
+- (void)setDelegate:(id<MultipleTableViewDelegate>)delegate
+{
+    _delegate = delegate;
+    
     if ([_delegate respondsToSelector:@selector(numberOfPagesDisplayedAtStart)])
     {
         _startPagesToShow = [_delegate numberOfPagesDisplayedAtStart];
@@ -63,60 +86,9 @@
     {
         _startPagesToShow = _maxPagesToShowAtOnce;
     }
-    NSLog(@"%ld pages will be shown at start.", self.startPagesToShow);
-    NSLog(@"%ld pages will be shown at most on screen.", self.maxPagesToShowAtOnce);
-}
 
-//类成员的初始化
-- (void)initializer
-{
-    _targetLevel = 1;
-    _currentSheetsSet = [[NSMutableArray alloc] init];
-    _backupSheetsSet = [[NSMutableSet alloc] init];
-}
-
-//向背景视图上添加datasheets
-- (void)loadDataSheets
-{
-    for (int nIdx = 0; nIdx < self.startPagesToShow; nIdx++)
-    {
-        CGRect dataSheetFrame = CGRectMake(130 * nIdx, 0, 320, 568);
-        DataSheetView *sheetView = [[DataSheetView alloc] initWithFrame:dataSheetFrame style:UITableViewStylePlain];
-        sheetView.tag = nIdx;
-        sheetView.delegate = self;
-        sheetView.dataSource = self;
-        sheetView.currentSheetLevel = nIdx;
-        [self addSubview:sheetView];
-        [sheetView release];
-        [_currentSheetsSet addObject:sheetView];
-    }
-    
-    for (UIView *view in self.subviews)
-    {
-        if (view.tag == 0)
-        {
-            view.backgroundColor = [UIColor yellowColor];
-        }
-        else if (view.tag == 1)
-        {
-            view.backgroundColor = [UIColor greenColor];
-        }
-        else if (view.tag == 2)
-        {
-            view.backgroundColor = [UIColor purpleColor];
-        }
-    }
-}
-
-//从后备的dataSheets实例的集合中检索元素
-- (DataSheetView *)dequeDataSheet
-{
-    DataSheetView *sheetView = [_backupSheetsSet anyObject];
-    if (sheetView)
-    {
-        [_backupSheetsSet removeObject:sheetView];
-    }
-    return sheetView;
+    [self initializer];
+    [self loadDataSheets];
 }
 
 //回收某个dataSheets到后备集合
@@ -145,6 +117,22 @@
     }
 }
 
+//移除废弃的sheets
+- (void)removeAbandonedSheets
+{
+    NSTimeInterval timeIntvl = 0.8;
+    for (DataSheetView *sheetView in _removedDataSheets)
+    {
+        [UIView animateWithDuration:timeIntvl animations:^{
+            CGRect outOfRange = CGRectMake(-320, 0, 320, 568);
+            sheetView.frame = outOfRange;
+        } completion:^(BOOL finished){
+            [sheetView removeFromSuperview];
+            [_removedDataSheets removeObject:sheetView];
+        }];
+    }
+}
+
 #pragma mark - UITableView Delegate & DataSource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -166,9 +154,10 @@
         if (_currentSheetsSet.count > _maxPagesToShowAtOnce)
         {
             sheetToCollect = [_currentSheetsSet firstObject];
-            [sheetToCollect removeFromSuperview];
+//            [sheetToCollect removeFromSuperview];
             sheetToCollect.bShouldRemove = YES;
             [_currentSheetsSet removeObject:sheetToCollect];
+            [_removedDataSheets addObject:sheetToCollect];
             for (DataSheetView *sheetView in _currentSheetsSet)
             {
                 sheetView.tag--;
@@ -221,6 +210,7 @@
         }
     }
     [self resizeTableViews];
+    [self removeAbandonedSheets];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

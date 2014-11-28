@@ -17,8 +17,6 @@
 @property (nonatomic, assign) id<MultipleTableViewDelegate> delegate;
 @property (nonatomic, assign) id<MultipleTableViewDataSource> dataSource;
 
-- (id)initWithFrame:(CGRect)frame withDelegate:(id<MultipleTableViewDelegate>)delegate AndDataSource:(id<MultipleTableViewDataSource>)dataSource;
-
 @end
 
 @protocol MultipleTableViewDelegate <NSObject>
