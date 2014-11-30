@@ -120,16 +120,38 @@
 //移除废弃的sheets
 - (void)removeAbandonedSheets
 {
-    NSTimeInterval timeIntvl = 0.8;
     for (DataSheetView *sheetView in _removedDataSheets)
     {
-        [UIView animateWithDuration:timeIntvl animations:^{
-            CGRect outOfRange = CGRectMake(-320, 0, 320, 568);
-            sheetView.frame = outOfRange;
-        } completion:^(BOOL finished){
-            [sheetView removeFromSuperview];
-            [_removedDataSheets removeObject:sheetView];
-        }];
+        if (sheetView.tag == 0)
+        {
+            [UIView animateWithDuration:0.8 animations:^{
+                CGRect outOfRange = CGRectMake(-320, 0, 320, 568);
+                sheetView.frame = outOfRange;
+            } completion:^(BOOL finished){
+                if (finished) {
+                    sheetView.delegate = nil;
+                    sheetView.dataSource = nil;
+                    [sheetView removeFromSuperview];
+                    [_removedDataSheets removeObject:sheetView];
+                }
+            }];
+        }
+        else
+        {
+            [UIView animateWithDuration:0.3 animations:^{
+                [self bringSubviewToFront:sheetView];
+                CGRect outOfRange = CGRectMake(320, 0, 320, 568);
+                sheetView.frame = outOfRange;
+            } completion:^(BOOL finished){
+                if (finished) {
+                    sheetView.delegate = nil;
+                    sheetView.dataSource = nil;
+                    [sheetView removeFromSuperview];
+                    [_removedDataSheets removeObject:sheetView];
+                }
+            }];
+        }
+
     }
 }
 
@@ -154,8 +176,6 @@
         if (_currentSheetsSet.count > _maxPagesToShowAtOnce)
         {
             sheetToCollect = [_currentSheetsSet firstObject];
-//            [sheetToCollect removeFromSuperview];
-            sheetToCollect.bShouldRemove = YES;
             [_currentSheetsSet removeObject:sheetToCollect];
             [_removedDataSheets addObject:sheetToCollect];
             for (DataSheetView *sheetView in _currentSheetsSet)
@@ -174,9 +194,8 @@
         for (NSInteger nIdx = 0; nIdx < numSheetsToRemove; nIdx++)
         {
             DataSheetView *sheetToCollect = [_currentSheetsSet lastObject];
-            [sheetToCollect removeFromSuperview];
             [_currentSheetsSet removeObject:sheetToCollect];
-            sheetToCollect.bShouldRemove = YES;
+            [_removedDataSheets addObject:sheetToCollect];
         }
         
         //在左侧新添加列表
@@ -202,11 +221,8 @@
         for (NSInteger nIdx = 0; nIdx < _currentSheetsSet.count; nIdx++)
         {
             DataSheetView *sheetView = [_currentSheetsSet objectAtIndex:nIdx];
-            if (sheetView.bShouldRemove == NO)
-            {
-                sheetView.tag = nIdx;
-                [self bringSubviewToFront:sheetView];
-            }
+            sheetView.tag = nIdx;
+            [self bringSubviewToFront:sheetView];
         }
     }
     [self resizeTableViews];

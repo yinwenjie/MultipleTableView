@@ -11,6 +11,5 @@
 @interface DataSheetView : UITableView
 
 @property (nonatomic, assign) NSInteger currentSheetLevel;      //该sheet所处在的level，负责与数据进行交互
-@property (nonatomic, assign) BOOL      bShouldRemove;
 
 @end
