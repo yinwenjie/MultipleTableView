@@ -45,4 +45,9 @@
     return 3;
 }
 
+- (CGFloat)   multipleTableView:(MultipleTableView *)dataSheetView heightForLevel:(NSInteger)level andRowAtIndexPath:(NSIndexPath*)indexPath
+{
+    return 80;
+}
+
 @end

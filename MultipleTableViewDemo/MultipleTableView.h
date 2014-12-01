@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DataSheetView.h"
+
 
 @protocol MultipleTableViewDelegate;
 @protocol MultipleTableViewDataSource;
@@ -24,6 +26,7 @@
 @optional
 - (NSInteger) numberOfPagesDisplayedAtStart;
 - (NSInteger) numberOfPagesDisplayedOnceAtMost;
+- (CGFloat)   multipleTableView:(MultipleTableView *)dataSheetView heightForLevel:(NSInteger)level andRowAtIndexPath:(NSIndexPath*)indexPath;
 @end
 
 @protocol MultipleTableViewDataSource<NSObject>

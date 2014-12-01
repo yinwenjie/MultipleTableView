@@ -7,7 +7,6 @@
 //
 
 #import "MultipleTableView.h"
-#import "DataSheetView.h"
 
 #define VIEW_ORIGIN_X   self.frame.origin.x
 #define VIEW_ORIGIN_Y   self.frame.origin.y
@@ -163,6 +162,16 @@
 }
 
 #pragma mark - UITableView Delegate & DataSource
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    DataSheetView *sheetView = (DataSheetView *)tableView;
+    if (_delegate && [_delegate respondsToSelector:@selector(multipleTableView:heightForLevel:andRowAtIndexPath:)])
+    {
+        return [_delegate multipleTableView:self heightForLevel:sheetView.currentSheetLevel andRowAtIndexPath:indexPath];
+    }
+    return 45;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DataSheetView *currentSheetView = (DataSheetView *)tableView;
