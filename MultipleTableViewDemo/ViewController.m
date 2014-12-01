@@ -37,7 +37,7 @@
 
 - (NSInteger) numberOfPagesDisplayedAtStart
 {
-    return 2;
+    return 3;
 }
 
 - (NSInteger) numberOfPagesDisplayedOnceAtMost

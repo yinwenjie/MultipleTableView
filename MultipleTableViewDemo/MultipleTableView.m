@@ -9,6 +9,13 @@
 #import "MultipleTableView.h"
 #import "DataSheetView.h"
 
+#define VIEW_ORIGIN_X   self.frame.origin.x
+#define VIEW_ORIGIN_Y   self.frame.origin.y
+#define VIEW_HEIGHT self.frame.size.height
+#define VIEW_WIDTH  self.frame.size.width
+
+#define TOPSHEETOFFSET  2 * VIEW_WIDTH / 3 //最顶层列表相对于左侧边界的距离
+
 @interface MultipleTableView()
 
 @property (nonatomic, assign) NSInteger startPagesToShow;
@@ -38,7 +45,7 @@
 {
     for (int nIdx = 0; nIdx < self.startPagesToShow; nIdx++)
     {
-        CGRect dataSheetFrame = CGRectMake(130 * nIdx, 0, 320, 568);
+        CGRect dataSheetFrame = CGRectMake(TOPSHEETOFFSET / _startPagesToShow * nIdx, 0, VIEW_WIDTH, VIEW_HEIGHT);
         DataSheetView *sheetView = [[DataSheetView alloc] initWithFrame:dataSheetFrame style:UITableViewStylePlain];
         sheetView.tag = nIdx;
         sheetView.delegate = self;
@@ -111,7 +118,7 @@
     {
         [UIView animateWithDuration:timeIntvl animations:^{
             NSInteger nIdx = sheetView.tag;
-            CGRect dataSheetFrame = CGRectMake(220 * nIdx / _currentSheetsSet.count, 0, 320, 568);
+            CGRect dataSheetFrame = CGRectMake(TOPSHEETOFFSET * nIdx / _currentSheetsSet.count, 0, VIEW_WIDTH, VIEW_HEIGHT);
             sheetView.frame = dataSheetFrame;
         }];
     }
@@ -125,7 +132,7 @@
         if (sheetView.tag == 0)
         {
             [UIView animateWithDuration:0.8 animations:^{
-                CGRect outOfRange = CGRectMake(-320, 0, 320, 568);
+                CGRect outOfRange = CGRectMake(-VIEW_WIDTH, 0, VIEW_WIDTH, VIEW_HEIGHT);
                 sheetView.frame = outOfRange;
             } completion:^(BOOL finished){
                 if (finished) {
@@ -140,7 +147,7 @@
         {
             [UIView animateWithDuration:0.3 animations:^{
                 [self bringSubviewToFront:sheetView];
-                CGRect outOfRange = CGRectMake(320, 0, 320, 568);
+                CGRect outOfRange = CGRectMake(VIEW_WIDTH, 0, VIEW_WIDTH, VIEW_HEIGHT);
                 sheetView.frame = outOfRange;
             } completion:^(BOOL finished){
                 if (finished) {
@@ -168,7 +175,7 @@
         newSheetView.currentSheetLevel = currentSheetView.currentSheetLevel + 1;
         newSheetView.delegate = self;
         newSheetView.dataSource = self;
-        newSheetView.frame = CGRectMake(320, 0, 320, 568);//初始frame在屏幕范围的外面，方便动画滑入
+        newSheetView.frame = CGRectMake(VIEW_WIDTH, 0, VIEW_WIDTH, VIEW_HEIGHT);//初始frame在屏幕范围的外面，方便动画滑入
         [self addSubview:newSheetView];
         [newSheetView release];
         [_currentSheetsSet addObject:newSheetView];
@@ -205,7 +212,7 @@
         {
             newSheetView.delegate = self;
             newSheetView.dataSource = self;
-            newSheetView.frame = CGRectMake(-320, 0, 320, 568);//初始frame在屏幕范围的外面，方便动画滑入
+            newSheetView.frame = CGRectMake(-VIEW_WIDTH, 0, VIEW_WIDTH, VIEW_HEIGHT);//初始frame在屏幕范围的外面，方便动画滑入
             newSheetView.currentSheetLevel = firstSheetView.currentSheetLevel - 1;
             [self addSubview:newSheetView];
             [newSheetView release];
