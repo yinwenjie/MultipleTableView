@@ -45,9 +45,24 @@
     return 3;
 }
 
-- (CGFloat)   multipleTableView:(MultipleTableView *)dataSheetView heightForLevel:(NSInteger)level andRowAtIndexPath:(NSIndexPath*)indexPath
+- (CGFloat)   dataSheetView:(DataSheetView *)dataSheetView heightForLevel:(NSInteger)level andRowAtIndexPath:(NSIndexPath*)indexPath
 {
-    return 80;
+    return 55;
+}
+
+- (UITableViewCell *)dataSheetView:(DataSheetView *)dataSheetView cellForLevel:(NSInteger)level andRowAtIndexPath:(NSIndexPath*)indexPath;
+{
+    DataSheetView *currentTableView = (DataSheetView *)dataSheetView;
+    static NSString *identifier = @"TableViewIdentifier";
+    UITableViewCell *cell = [currentTableView dequeueReusableCellWithIdentifier:identifier];
+    
+    if (cell == nil)
+    {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"第%ld列",currentTableView.currentSheetLevel + 1];
+    return cell;
 }
 
 @end

@@ -165,9 +165,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DataSheetView *sheetView = (DataSheetView *)tableView;
-    if (_delegate && [_delegate respondsToSelector:@selector(multipleTableView:heightForLevel:andRowAtIndexPath:)])
+    if (_delegate && [_delegate respondsToSelector:@selector(dataSheetView:heightForLevel:andRowAtIndexPath:)])
     {
-        return [_delegate multipleTableView:self heightForLevel:sheetView.currentSheetLevel andRowAtIndexPath:indexPath];
+        return [_delegate dataSheetView:sheetView heightForLevel:sheetView.currentSheetLevel andRowAtIndexPath:indexPath];
     }
     return 45;
 }
@@ -252,16 +252,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DataSheetView *currentTableView = (DataSheetView *)tableView;
-    static NSString *identifier = @"TableViewIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    
-    if (cell == nil)
-    {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-    }
-    
-    cell.textLabel.text = [NSString stringWithFormat:@"第%ld张表格",currentTableView.currentSheetLevel + 1];
+    DataSheetView *sheetView = (DataSheetView *)tableView;
+    UITableViewCell *cell = [_dataSource dataSheetView:sheetView cellForLevel:sheetView.currentSheetLevel andRowAtIndexPath:indexPath];
     return cell;
 }
 @end

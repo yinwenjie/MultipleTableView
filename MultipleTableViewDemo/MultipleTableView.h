@@ -26,10 +26,13 @@
 @optional
 - (NSInteger) numberOfPagesDisplayedAtStart;
 - (NSInteger) numberOfPagesDisplayedOnceAtMost;
-- (CGFloat)   multipleTableView:(MultipleTableView *)dataSheetView heightForLevel:(NSInteger)level andRowAtIndexPath:(NSIndexPath*)indexPath;
+- (CGFloat)   dataSheetView:(DataSheetView *)dataSheetView heightForLevel:(NSInteger)level andRowAtIndexPath:(NSIndexPath*)indexPath;
 @end
 
 @protocol MultipleTableViewDataSource<NSObject>
+
+@required
+- (UITableViewCell *)dataSheetView:(DataSheetView *)dataSheetView cellForLevel:(NSInteger)level andRowAtIndexPath:(NSIndexPath*)indexPath;
 
 @optional
 
