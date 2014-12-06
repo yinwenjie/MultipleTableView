@@ -39,6 +39,16 @@
     _backupSheetsSet = [[NSMutableSet alloc] init];
 }
 
+- (void)dealloc
+{
+    [super dealloc];
+    _delegate = nil;
+    _dataSource = nil;
+    [_currentSheetsSet release];
+    [_removedDataSheets release];
+    [_backupSheetsSet release];
+}
+
 //向背景视图上添加datasheets
 - (void)loadDataSheets
 {
