@@ -50,6 +50,11 @@
     return 55;
 }
 
+- (NSInteger)dataSheetView:(DataSheetView *)dataSheetView numberOfRowsForLevel:(NSInteger)level
+{
+    return 10;
+}
+
 - (UITableViewCell *)dataSheetView:(DataSheetView *)dataSheetView cellForLevel:(NSInteger)level andRowAtIndexPath:(NSIndexPath*)indexPath;
 {
     DataSheetView *currentTableView = (DataSheetView *)dataSheetView;

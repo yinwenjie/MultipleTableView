@@ -35,5 +35,6 @@
 - (UITableViewCell *)dataSheetView:(DataSheetView *)dataSheetView cellForLevel:(NSInteger)level andRowAtIndexPath:(NSIndexPath*)indexPath;
 
 @optional
+- (NSInteger)dataSheetView:(DataSheetView *)dataSheetView numberOfRowsForLevel:(NSInteger)level;
 
 @end

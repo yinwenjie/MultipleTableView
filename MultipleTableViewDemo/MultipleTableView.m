@@ -257,6 +257,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    DataSheetView *sheetView = (DataSheetView *)tableView;
+    if (_dataSource && [_dataSource respondsToSelector:@selector(dataSheetView:heightForLevel:andRowAtIndexPath:)])
+    {
+        return [_dataSource dataSheetView:sheetView numberOfRowsForLevel:sheetView.currentSheetLevel];
+    }
     return 15;
 }
 
