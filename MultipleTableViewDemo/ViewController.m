@@ -52,7 +52,7 @@
 
 - (NSInteger)dataSheetView:(DataSheetView *)dataSheetView numberOfRowsForLevel:(NSInteger)level
 {
-    return 10;
+    return 2 * dataSheetView.currentSheetLevel + 1;
 }
 
 - (UITableViewCell *)dataSheetView:(DataSheetView *)dataSheetView cellForLevel:(NSInteger)level andRowAtIndexPath:(NSIndexPath*)indexPath;
