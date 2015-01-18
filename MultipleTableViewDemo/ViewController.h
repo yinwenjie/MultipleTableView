@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MultipleTableView.h"
 
-@interface ViewController : UIViewController<MultipleTableViewDelegate,MultipleTableViewDataSource>
+@interface ViewController : UIViewController
 
 
 @end

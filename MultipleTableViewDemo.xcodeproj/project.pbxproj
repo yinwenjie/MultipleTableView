@@ -10,10 +10,10 @@
 		7A1537BC1A1D707B00236529 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1537BB1A1D707B00236529 /* main.m */; };
 		7A1537BF1A1D707B00236529 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1537BE1A1D707B00236529 /* AppDelegate.m */; };
 		7A1537C21A1D707B00236529 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1537C11A1D707B00236529 /* ViewController.m */; };
-		7A1537C51A1D707B00236529 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A1537C31A1D707B00236529 /* Main.storyboard */; };
 		7A1537C71A1D707B00236529 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A1537C61A1D707B00236529 /* Images.xcassets */; };
 		7A1537CA1A1D707B00236529 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A1537C81A1D707B00236529 /* LaunchScreen.xib */; };
 		7A1537D61A1D707B00236529 /* MultipleTableViewDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1537D51A1D707B00236529 /* MultipleTableViewDemoTests.m */; };
+		7A180A6D1A6BFB8100E9FD13 /* MultipleTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A180A6C1A6BFB8100E9FD13 /* MultipleTableViewController.m */; };
 		7A26B2201A1D843900009412 /* MultipleTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A26B21F1A1D843900009412 /* MultipleTableView.m */; };
 		7A26B2231A1D9DA500009412 /* DataSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A26B2221A1D9DA500009412 /* DataSheetView.m */; };
 /* End PBXBuildFile section */
@@ -36,12 +36,13 @@
 		7A1537BE1A1D707B00236529 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7A1537C01A1D707B00236529 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		7A1537C11A1D707B00236529 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		7A1537C41A1D707B00236529 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7A1537C61A1D707B00236529 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7A1537C91A1D707B00236529 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		7A1537CF1A1D707B00236529 /* MultipleTableViewDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultipleTableViewDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A1537D41A1D707B00236529 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7A1537D51A1D707B00236529 /* MultipleTableViewDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MultipleTableViewDemoTests.m; sourceTree = "<group>"; };
+		7A180A6B1A6BFB8100E9FD13 /* MultipleTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipleTableViewController.h; sourceTree = "<group>"; };
+		7A180A6C1A6BFB8100E9FD13 /* MultipleTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipleTableViewController.m; sourceTree = "<group>"; };
 		7A26B21E1A1D843900009412 /* MultipleTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipleTableView.h; sourceTree = "<group>"; };
 		7A26B21F1A1D843900009412 /* MultipleTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipleTableView.m; sourceTree = "<group>"; };
 		7A26B2211A1D9DA500009412 /* DataSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSheetView.h; sourceTree = "<group>"; };
@@ -91,11 +92,12 @@
 				7A1537BE1A1D707B00236529 /* AppDelegate.m */,
 				7A1537C01A1D707B00236529 /* ViewController.h */,
 				7A1537C11A1D707B00236529 /* ViewController.m */,
+				7A180A6B1A6BFB8100E9FD13 /* MultipleTableViewController.h */,
+				7A180A6C1A6BFB8100E9FD13 /* MultipleTableViewController.m */,
 				7A26B2211A1D9DA500009412 /* DataSheetView.h */,
 				7A26B2221A1D9DA500009412 /* DataSheetView.m */,
 				7A26B21E1A1D843900009412 /* MultipleTableView.h */,
 				7A26B21F1A1D843900009412 /* MultipleTableView.m */,
-				7A1537C31A1D707B00236529 /* Main.storyboard */,
 				7A1537C61A1D707B00236529 /* Images.xcassets */,
 				7A1537C81A1D707B00236529 /* LaunchScreen.xib */,
 				7A1537B91A1D707B00236529 /* Supporting Files */,
@@ -209,7 +211,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A1537C51A1D707B00236529 /* Main.storyboard in Resources */,
 				7A1537CA1A1D707B00236529 /* LaunchScreen.xib in Resources */,
 				7A1537C71A1D707B00236529 /* Images.xcassets in Resources */,
 			);
@@ -230,6 +231,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A1537C21A1D707B00236529 /* ViewController.m in Sources */,
+				7A180A6D1A6BFB8100E9FD13 /* MultipleTableViewController.m in Sources */,
 				7A26B2231A1D9DA500009412 /* DataSheetView.m in Sources */,
 				7A26B2201A1D843900009412 /* MultipleTableView.m in Sources */,
 				7A1537BF1A1D707B00236529 /* AppDelegate.m in Sources */,
@@ -256,14 +258,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		7A1537C31A1D707B00236529 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7A1537C41A1D707B00236529 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		7A1537C81A1D707B00236529 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
