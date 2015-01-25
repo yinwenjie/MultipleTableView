@@ -17,7 +17,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    CGRect frame = CGRectMake(0, 0, 320, 568);
+    
+//    int x = self.navigationController.navigationBar.frame.origin.x;
+    int y = self.navigationController.navigationBar.frame.origin.y;
+//    int width = self.navigationController.navigationBar.frame.size.width;
+    int height = self.navigationController.navigationBar.frame.size.height;
+    
+    CGRect backgroundFrame = CGRectMake(0, 0, 320, 568);
+    UIView *backgroundView = [[UIView alloc] initWithFrame:backgroundFrame];
+    backgroundView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:backgroundView];
+    
+    CGRect frame = CGRectMake(0, y + height, 320, 568);
     MultipleTableView *MTV = [[MultipleTableView alloc] initWithFrame:frame];
     MTV.delegate = self;
     MTV.dataSource = self;
